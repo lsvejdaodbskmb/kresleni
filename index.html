@@ -39,6 +39,11 @@
                 moveRight = false;
             }
         }
+        let xMic = 300;
+        let yMic = 200;
+        let rMic = 50;
+        let rychlostXMice;
+        let rychlostYMice;
         function kresli() {
             let cnv = document.getElementById("platno");
             let ctx = cnv.getContext("2d");
@@ -71,9 +76,23 @@
             ctx.arc(xPostava, yPostava, 30, 0, 2*Math.PI);
             ctx.stroke();
 
+            xMic = xMic + rychlostXMice;
+            yMic = yMic + rychlostYMice;
+            if (xMic < rMic) { //levy okraj
+                rychlostXMice = -1 * rychlostXMice;
+            }
+            if (xMic > cnv.width - rMic) { //pravy okraj
+                rychlostXMice = -1 * rychlostXMice;
+            }
+            if (yMic < rMic) { //horni okraj
+                rychlostYMice = -1 * rychlostYMice;
+            }
+            if (yMic > cnv.height - rMic) { //dolni okraj
+                rychlostYMice = -1 * rychlostYMice;
+            }
             ctx.beginPath();
             ctx.fillStyle = "blue";
-            ctx.arc(300, 200, 50, 0, 2*Math.PI);
+            ctx.arc(xMic, yMic, rMic, 0, 2*Math.PI);
             ctx.fill();
 
             x = x -1;
@@ -81,6 +100,8 @@
             ctx.drawImage(img, x, y, 100, 100);
         }
         function animuj() {
+            rychlostXMice = Math.round(10*Math.random());
+            rychlostYMice = Math.round(10*Math.random());
             setInterval(kresli, 10);
         }
     </script>
